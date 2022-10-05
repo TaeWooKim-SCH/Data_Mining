@@ -57,3 +57,53 @@ print(df_new.drop('account', axis = 1)) # account 열 제거
 print(df_new.drop(["account", "name"], axis = 1)) # account, name 열 제거
 
 
+
+# 그룹별 집계
+    # 그룹별 집계 사용하기
+        # 그룹별 집계의 기본형
+ipl_team = {'Team': ['Riders', 'Riders', 'Devils', 'Devils', 'Kings', 'kings', 'Kings', 'Kings', 'Riders', 'Royals', 'Royals', 'Riders'], 
+            'Rank': [1, 2, 2, 3, 3, 4, 1, 1, 2, 4, 1, 2], 
+            'Year': [2014, 2015, 2014, 2015, 2015, 2015, 2016, 2017, 2016, 2014, 2015, 2017], 
+            'Points': [876, 789, 863, 673, 741, 812, 756, 788, 694, 701, 804, 690]}
+df = pd.DataFrame(ipl_team)
+print(df)
+print(df.groupby('Team')['Points'].sum())
+
+        # 멀티 인덱스 그룹별 집계
+multi_gropby = df.groupby(['Team', 'Year'])['Points'].sum()
+print(multi_gropby)
+
+        # 멀티 인덱스
+multi_gropby = df.groupby(['Team', 'Year'])['Points'].sum()
+print(multi_gropby.index)
+print(multi_gropby['Devils':'Riders'])
+print(multi_gropby.unstack()) 
+print(multi_gropby.swaplevel().sort_index())
+print(multi_gropby.sum(level = 0))
+print(multi_gropby.sum(level = 1))
+
+
+    # 그룹화된 상태
+grouped = df.groupby('Team')
+print(grouped.get_group('Riders'))
+        # 집계
+print(grouped.agg(min))
+print(grouped.agg(np.mean))
+
+        # 변환
+print(grouped.transform(max))
+score = lambda x: (x - x.mean()) / x.std()
+print(grouped.transform(score))
+
+        # 필터
+print(df.groupby('Team').filter(
+    lambda x: len(x) >= 3
+))
+print(df.groupby('Team').filter(
+    lambda x: x['Points'].max() > 800
+))
+
+
+
+
+
