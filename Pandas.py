@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
 # 데이터프레임의 생성
     # 'read_확장자'함수로 데이터 바로 로딩
@@ -105,5 +106,55 @@ print(df.groupby('Team').filter(
 
 
 
+# 병합과 연결
+    # 병합
+        # 내부 조인
+raw_data = {
+            'subject_id': ['1', '2', '3', '4', '5', '7', '8', '9', '10', '11'],
+            'test_score': [51, 15, 15, 61, 16, 14, 15, 1, 61, 16]
+            }
+df_left = pd.DataFrame(raw_data, columns = ['subject_id', 'test_score'])
+print(df_left)
+
+raw_data = {
+            'subject_id': ['4', '5', '6', '7', '8'],
+            'first_name': ['Billy', 'Brian', 'Bran', 'Bryce', 'Betty'],
+            'last_name': ['Bonder', 'Black', 'Balwner', 'Brice', 'Btisan']
+            }
+df_right = pd.DataFrame(raw_data, columns = ['subject_id', 'first_name', 'last_name'])
+print(df_right)
+
+print(pd.merge(left = df_left, right = df_right, how = "inner", on = 'subject_id'))
+
+        # 왼쪽 조인, 오른쪽 조인
+print(pd.merge(df_left, df_right, on = 'subject_id', how = 'left')) # 왼쪽 조인
+print(pd.merge(df_left, df_right, on = 'subject_id', how = 'right')) # 오른쪽 조인
+
+        # 완전 조인
+print(pd.merge(df_left, df_right, on = 'subject_id', how = 'outer'))
+
+
+    # 연결
+filenames = [os.path.join("G:\내 드라이브\김태우\대학교\\2학년 2학기\데이터마이닝\Ex_Data\ch04", filename)
+                for filename in os.listdir("G:\내 드라이브\김태우\대학교\\2학년 2학기\데이터마이닝\Ex_Data\ch04")
+                if "sales" in filename]
+print(filenames)
+
+        # concat 사용
+df_list = [pd.read_excel(filename, engine = "openpyxl")
+            for filename in filenames]
+for df in df_list:
+    print(type(df), len(df))
+
+df = pd.concat(df_list, axis = 0)
+print(df)
+print(df.reset_index(drop = True))
+
+        # append 사용: append 함수는 파일을 한 개씩 합치기 때문에 두 개 이상의 데이터프레임을 합칠 때에는 concat 함수를 쓰는 것이 좋다.
+df_1, df_2, df_3 = [pd.read_excel(filename, engine = "openpyxl")
+                        for filename in filenames]
+df = df_1.append(df_2)
+df = df.append(df_3)
+print(df)
 
 
