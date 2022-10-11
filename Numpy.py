@@ -26,3 +26,4 @@ tensor_rank3 = [
     [[1, 2, 5, 8], [1, 2, 5, 8], [1, 2, 5, 8]]
 ]
 print(np.array(tensor_rank3, int).shape)
+print(np.array(tensor_rank3, int)).shape)
