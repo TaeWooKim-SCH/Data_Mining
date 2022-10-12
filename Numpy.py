@@ -26,4 +26,11 @@ tensor_rank3 = [
     [[1, 2, 5, 8], [1, 2, 5, 8], [1, 2, 5, 8]]
 ]
 print(np.array(tensor_rank3, int).shape)
-print(np.array(tensor_rank3, int)).shape)
+print(np.array(tensor_rank3, int))
+print(np.array(tensor_rank3, int).ndim) # ndim: 배열의 차원 수
+print(np.array(tensor_rank3, int).size) # size: 전체 원소의 갯수 반환
+
+
+    # dtype
+print(np.array([[1, 2, 3.5], [4, 5, 6.5]], dtype = int)) # 반올림이 아닌 앞의 정수만 반환
+print(np.array([[1, 2, 3.5], [4, 5, 6.5]], dtype = float))
