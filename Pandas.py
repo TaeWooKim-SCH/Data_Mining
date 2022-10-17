@@ -2,9 +2,35 @@ import numpy as np
 import pandas as pd
 import os
 
-# 데이터프레임의 생성
-    # 'read_확장자'함수로 데이터 바로 로딩
-        # .csv나 .xlsx 등 스프레드시트형 확장자 파일에서 데이터 로딩
+# 판다스란?
+    # 시리즈 객체
+list_data = [1, 2, 3, 4, 5]
+list_name = ["a", "b", "c", "d", "e"]
+example_obj = pd.Series(data = list_data, index = list_name)
+print(example_obj)
+print(example_obj.index)
+print(example_obj.values)
+print(example_obj.dtype)
+
+example_obj.name = "number"
+example_obj.index.name = "id"
+print(example_obj)
+
+    # 시리즈 객체 생성하기
+dict_data = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+example_obj = pd.Series(data = dict_data, dtype = np.float32, name = "example_data")
+print(example_obj)
+
+    # 판다스의 모든 객체는 인덱스 값을 기준으로 생성
+        # 기존 데이터에 인덱스 값을 추가하면 NaN 값이 출력됨
+dict_data_1 = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+indexes = ["a", "b", "c", "d", "e", "f", "g", "h"]
+series_obj_1 = pd.Series(dict_data_1, index = indexes)
+print(series_obj_1)
+
+    # 데이터프레임의 생성
+        # 'read_확장자'함수로 데이터 바로 로딩
+            # .csv나 .xlsx 등 스프레드시트형 확장자 파일에서 데이터 로딩
 data_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data' # 데이터 URL을 변수 data_url에 넣기
 df_data = pd.read_csv(data_url, sep = '\s+', header = None) # csv 데이터 로드
 df = pd.DataFrame(df_data) # 데이터프레임으로 만들기
